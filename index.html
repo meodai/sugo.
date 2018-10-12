@@ -11,7 +11,6 @@
 @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,700");
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
-  
 
 h1 {
   display: block;
@@ -46,6 +45,7 @@ address {
   margin-top: -.6rem;
   padding: 1rem;
   line-height: 1.4;
+  color: #f04e45;
 }
 address * {
   display: block;
@@ -53,6 +53,21 @@ address * {
 
 .tel {
   margin-top: 1em;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  mix-blend-mode: difference;
+  -webkit-mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+canvas {
+  z-index: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 </style>
 </head>
@@ -68,6 +83,62 @@ address * {
   <span class="tel">+41 78 603 09 23</span>
   <a href="https://www.linkedin.com/in/sdo1981">LinkedIn</a>
 </address>
+    <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
+    <script>
+ const res = Math.ceil(window.innerHeight / 60);
+let w = Math.ceil(window.innerWidth / res);
+let h = Math.ceil(window.innerHeight / res);
+const $b = document.querySelector('body');
+const $c = document.createElement('canvas');
+const ctx = $c.getContext('2d');
+$c.width = window.innerWidth;
+$c.height = window.innerHeight;
+$b.appendChild($c);
+
+const speed = .005;
+
+function setSize () {
+  w = Math.ceil(window.innerWidth / res);
+  h = Math.ceil(window.innerHeight / res);
+  $c.width = window.innerWidth;
+  $c.height = window.innerHeight;
+}
+
+let progress = 0;
+
+noise.seed(Math.random());
+
+let baseColor = Math.random() * 360;
+let i = 0;
+function doit () {
+  progress += speed;
+  i+=.25;
+  for (let x = 0; x < w; x++) {
+    for (let y = 0; y < h; y++) {
+      const sim = noise.simplex3((progress + x) / (w * 1.5), y / (h * 1.5), progress);
+      //const per = noise.perlin3((progress + x) / (w * 1.25), progress + y / (h * 1.25), progress);
+      ctx.fillStyle = `hsl(3,85%,${61 + Math.abs(sim) * 38 + (Math.random() * 1)}%)`;
+      //hsl(3, 85%, 61%)
+      // ${(Math.random() * 11) + ((i + baseColor + 111 * Math.abs(sim) % 30) % 360)}
+      ctx.fillRect(x * res,y * res,res,res);
+    }
+  }
+  requestAnimationFrame(doit);
+}
+
+doit();
+
+document.addEventListener('click', function(){
+  baseColor = Math.random() * 360;
+  noise.seed(Math.random());
+  
+});
+
+
+setSize();
+
+window.addEventListener('resize', setSize);
+    </script>
     </main>
 </body>
 </html>
