@@ -2,4 +2,4 @@
 sugo gmbh website
 
 
-Minimal landing page for Sugo GmbH c/o Sebastien Dozel
+Minimal landing page for Sugo GmbH c/o Sebastien Donzel
