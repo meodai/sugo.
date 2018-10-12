@@ -133,7 +133,7 @@ function doit () {
     for (let y = 0; y < h; y++) {
       const sim = noise.simplex3(winX * -.25 + ((progress + x) / (w * 1)), y / (h * 1.5), winY * .25 + progress);
       //const per = noise.perlin3((progress + x) / (w * 1.25), progress + y / (h * 1.25), progress);
-      ctx.fillStyle = `hsl(${Math.abs(sim) * 30},85%,${61 + Math.abs(sim) * 38 + (Math.random() * 1)}%)`;
+      ctx.fillStyle = `hsl(8,85%,${61 + Math.abs(sim) * 38 + (Math.random() * 1)}%)`;
       //hsl(3, 85%, 61%)
       // ${(Math.random() * 11) + ((i + baseColor + 111 * Math.abs(sim) % 30) % 360)}
       ctx.fillRect(x * res,y * res,res,res);
